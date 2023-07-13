@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Buttons from "./components/navbar";
+import React, { Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DashboardTitle from "./components/dashboardTitle";
 
-function App() {
+const Backlog = React.lazy(() => import("./components/backlog"));
+const Board = React.lazy(() => import("./components/board"));
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Suspense fallback={<div>Loading Ho rhi ruk jao</div>}>
+        <Routes>
+          <Route path="/" element={<Buttons />}>
+            <Route index element={<DashboardTitle />} />
+            <Route path="backlog" element={<Backlog />} />
+            <Route path="board" element={<Board />} />
+            {/* <Route path="*" element={<NoPage />} /> */}
+          </Route>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
-
-export default App;
